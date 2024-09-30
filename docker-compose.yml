@@ -1,0 +1,45 @@
+services:
+  tgo-postgres-db:
+    image: postgres:16
+    container_name: tgo-postgres-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_DB: tgo
+      POSTGRES_PASSWORD: 'admin123'
+    ports:
+      - '5432:5432'
+    volumes:
+      - '.dockerDevData/postgres-data:/var/lib/postgresql/data'
+
+  tgo-pgadmin-local:
+    image: dpage/pgadmin4
+    container_name: tgo-pgadmin-local
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin123'
+    ports:
+      - '16543:80'
+    volumes:
+      - '.dockerDevData/pgadmin-data:/var/lib/pgadmin'
+    depends_on:
+      - tgo-postgres-db
+
+  tgo-redis:
+    image: redis
+    container_name: tgo-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - .dockerDevData/redis-data:/data
+
+  tgo-rabbitmq:
+    image: rabbitmq:3-management
+    container_name: tgo-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    volumes:
+      - .dockerDevData/rabbitmq-data:/var/lib/rabbitmq
