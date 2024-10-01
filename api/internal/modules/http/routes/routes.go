@@ -9,4 +9,5 @@ import (
 
 func StartRoutes(app *fiber.App, container *di.Container) {
 	subroutes.UserRoutes(app, container)
+	subroutes.AuthRoutes(app, container)
 }

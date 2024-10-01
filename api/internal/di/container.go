@@ -29,7 +29,8 @@ func NewContainer() (*Container, error) {
 	createUserUseCaseInit := userUseCase.NewCreateUserUseCase(userRepoInit)
 	getUserByIdUseCaseInit := userUseCase.NewGetUserByIdUseCase(userRepoInit)
 	getAllUsersUseCaseInit := userUseCase.NewGetAllUsersUseCase(userRepoInit)
-	userServiceInit := userService.NewUserService(cryptoAdapter, createUserUseCaseInit, getUserByIdUseCaseInit, getAllUsersUseCaseInit)
+	getAuthUserUseCaseInit := userUseCase.NewGetAuthUserUseCase(userRepoInit, cryptoAdapter)
+	userServiceInit := userService.NewUserService(cryptoAdapter, createUserUseCaseInit, getUserByIdUseCaseInit, getAllUsersUseCaseInit, getAuthUserUseCaseInit)
 	userControllerInit := userController.NewUserController(userServiceInit)
 
 	return &Container{

@@ -42,3 +42,10 @@ func (r *UserRepository) GetAllUsers(ctx context.Context) ([]User, error) {
 
 	return users, nil
 }
+
+func (r *UserRepository) GetUserByEmail(ctx context.Context, email string) (User, error) {
+	var user User
+	query := `SELECT id, name,email,password FROM users WHERE email = $1`
+	err := r.db.GetContext(ctx, &user, query, email)
+	return user, err
+}

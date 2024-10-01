@@ -1,9 +1,12 @@
 package controller
 
 import (
+	"fmt"
 	service "tgo/api/internal/services/user"
+	"tgo/api/pkg/middleware"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/jinzhu/copier"
 )
@@ -48,8 +51,37 @@ func (c *UserController) CreateUser(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(dest)
 }
 
+func (c *UserController) Auth(ctx *fiber.Ctx) error {
+	type Request struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	var req Request
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid request"})
+	}
+
+	user, err := c.service.AuthUser(ctx.Context(), req.Email, req.Password)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	type userReponse struct {
+		AccessToken string `json:"access_token"`
+	}
+	var dest userReponse
+
+	var userId string = user.ID.String()
+	dest.AccessToken, _ = middleware.GenerateJWT(userId, user.Email)
+
+	return ctx.Status(fiber.StatusCreated).JSON(dest)
+}
+
 func (c *UserController) GetUserByID(ctx *fiber.Ctx) error {
+
 	id, err := uuid.Parse(ctx.Params("id"))
+
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid ID"})
 	}
@@ -75,6 +107,11 @@ func (c *UserController) GetUserByID(ctx *fiber.Ctx) error {
 }
 
 func (c *UserController) GetAllUsers(ctx *fiber.Ctx) error {
+
+	// TODO: Maybe one middleware to use as global value?
+	token := ctx.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	fmt.Println(claims["id"])
 
 	user, err := c.service.GetAllUsers(ctx.Context())
 	if err != nil {
