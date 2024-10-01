@@ -42,7 +42,6 @@ To run the project (Developer Mode):
 
 ### Coming Soon
 
-- <input type="checkbox" disabled /> Favicon Support
 - <input type="checkbox" disabled /> Cache Support
 - <input type="checkbox" disabled /> Test Support
 - <input type="checkbox" disabled /> Swagger Support
