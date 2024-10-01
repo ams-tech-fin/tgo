@@ -6,6 +6,7 @@ import (
 	"tgo/api/internal/modules/crypto"
 	repository "tgo/api/internal/repositories/user"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 )
 
@@ -15,6 +16,7 @@ type UserService struct {
 	getUserByIdUseCase userUseCase.IGetUserByIdUseCase
 	getAllUsersUseCase userUseCase.IGetAllUsersUseCase
 	getAuthUserUseCase userUseCase.IGetAuthUserUseCase
+	cache              *redis.Client
 }
 
 func NewUserService(
@@ -23,6 +25,7 @@ func NewUserService(
 	getUserByIdUseCase userUseCase.IGetUserByIdUseCase,
 	getAllUsersUseCase userUseCase.IGetAllUsersUseCase,
 	getAuthUserUseCase userUseCase.IGetAuthUserUseCase,
+	cache *redis.Client,
 ) *UserService {
 	return &UserService{
 		cryptoAdapter:      cryptoAdapter,
@@ -30,6 +33,7 @@ func NewUserService(
 		getUserByIdUseCase: getUserByIdUseCase,
 		getAllUsersUseCase: getAllUsersUseCase,
 		getAuthUserUseCase: getAuthUserUseCase,
+		cache:              cache,
 	}
 }
 
