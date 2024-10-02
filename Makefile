@@ -15,7 +15,7 @@ DB_DSN="postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?ss
 all: build
 
 dev:
-	go run github.com/cespare/reflex@latest -r '(\.go$$|\.env$$|VERSION$$)' -s -- make run
+	go run github.com/cespare/reflex@latest -r '(\.go$$|\.env$$|VERSION$$|README.MD)' -s -- make run
 
 install:
 	go mod tidy

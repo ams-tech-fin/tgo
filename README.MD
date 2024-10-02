@@ -11,7 +11,7 @@
 </p>
 <p align='center'>
  <img src="https://img.shields.io/badge/Docker--foo?logo=docker&color=2496ED" alt="drawing" />
- <img src="https://img.shields.io/badge/Swagger--foo?logo=swagger&color=85EA2D" alt="drawing" />
+ <!-- <img src="https://img.shields.io/badge/Swagger--foo?logo=swagger&color=85EA2D" alt="drawing" /> -->
  <img src="https://img.shields.io/badge/JWT--foo?logo=jsonwebtokens&color=00F2E6" alt="drawing" />
  <img src="https://img.shields.io/badge/JSON--foo?logo=json&color=000000" alt="drawing" />
  <img src="https://img.shields.io/badge/.ENV--foo?logo=dotenv&color=ECD53F" alt="drawing" />
@@ -44,4 +44,3 @@ To run the project (Developer Mode):
 
 - <input type="checkbox" disabled /> Test Support
 - <input type="checkbox" disabled /> Swagger Support
-- <input type="checkbox" disabled /> Queue Support
